@@ -1,4 +1,4 @@
-# GSD
+# GSD-GNN
 # HOWTO
 
 The dependence versions that the code is tested:
