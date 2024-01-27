@@ -33,6 +33,7 @@ python main.py --dataname cora --gpu 0  --sample 4 --input_droprate 0.5 --hidden
 python main.py --dataname citeseer --gpu 0  --sample 2 --input_droprate 0.0 --hidden_droprate 0.2 --dropnode_rate 0.5 --hid_dim 128 --early_stopping 100 --lr 1e-2  --epochs 2000
 python main.py --dataname pubmed --gpu 0  --sample 4 --input_droprate 0.6 --hidden_droprate 0.8 --dropnode_rate 0.5 --hid_dim 16 --early_stopping 200 --lr 0.2 --epochs 2000 --use_bn
 ```
+The dataset is automatically downloaded from the DGL library on execution.
 
 
 ## Modify hyperparameters
