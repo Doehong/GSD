@@ -1,7 +1,7 @@
 # GSD-GNN
-# HOWTO
-
-The dependence versions that the code is tested:
+Our code is divided into a C++ part and a python part
+# C++ dependence
+The C++ part dependence versions that the code is tested:
 
 | Dependence 	| Version     	|
 |------------	|-------------	|
