@@ -1,74 +1,37 @@
 # GSD
 # HOWTO
 
-## How to install
-```
-sudo apt-get install cmake
-sudo apt-get install libgflags-dev
-sudo apt-get install liblog4cxx-dev
-sudo apt-get install libomp-dev
-sudo apt-get install libeigen3-dev
-https://github.com/xptree/NetSMF.git
-cd NetSMF
-mkdir build
-./configure
-cd build
-make
-```
-
 The dependence versions that the code is tested:
 
 | Dependence 	| Version     	|
 |------------	|-------------	|
-| g++        	| 5.4.0       	|
-| cmake      	| 3.5.1-1     	|
+| g++        	| 11.4.0       	|
+| cmake      	| 3.22.1      	|
 | gflags     	| 2.1.2-3     	|
-| log4cxx    	| 0.10.0-10   	|
 | openmp     	| 3.7.0-3     	|
-| eigen3     	| 3.3~beta1-2 	|
+| SWIG      	| 4.0.2       	|
 
-**Note: Using eigen3 3.2.5 may cause problems. Please do update you eigen3 to 3.3 or above.**
+## Preprocessing for C++ code 
+Create an interface shared by C++ code and Python code
+```bash
+cd sampler
+./compile.sh
+```
+### Start with conda for python part
+```bash
+conda create -n your_env_name python=3.8.16
+```
+Install dependencies by
+```bash
+pip install -r requirements.txt
+```
 
-## How to run
-
-### Input
-
-Support undirected networks with edgelist format.
-
-For unweighted networks, each edge should appear twice `a b` and `b a`.
-
-For weighted networks, each edge should appear twice `a b w` and `b a w`.
-
-You may want to use `example/mat2edge.py` to translate mat to edgelist.
-
-`.mat` files can be downloaded here:
-
-* BlogCatalog [Source](http://socialcomputing.asu.edu/datasets/BlogCatalog3) [Preprocessed](http://leitang.net/code/social-dimension/data/blogcatalog.mat)
-* Protein-Protein Interaction [Source](http://thebiogrid.org/download.php) [Preprocessed](http://snap.stanford.edu/node2vec/Homo_sapiens.mat)
-* [Flickr](http://leitang.net/code/social-dimension/data/flickr.mat)
-* [YouTube](http://leitang.net/code/social-dimension/data/youtube.mat)
-
-
-
-### Run NetSMF
-
-For unweighted networks, see `example/blog.sh` for an example.
-
-`blog.sh` takes three arguments, the first one indicates the input edgelist file, the second one indicates the output file, the third one indicating the origin `.mat` file containing network and labels.
-
-For exmaple, runing `./blog.sh blogcatalog.edgelist blogcatalog.netsmf blogcatalog.mat` will
-
-* check if `blogcatalog.edgelist` is a valid file. If not, it calls `mat2edge.py` to translate mat file `blogcatalog.mat` to edgelist `blogcatalog.edgelist`.
-* call NetSMF algorithm, and store the 128-dim embedding at `blogcatalog.netsmf_128.npy`.
-* call `predict.py` to evaluate NetSMF at the label classification task.
-
-You can use `-weight` to switch to weighted networks and use `-noweight` to switch to unweighted network (default unweighted).
-
-### About truncated logarithm
-
-We propose to use truncated logarithm in our WWW'19 paper.
-
-In the code, we provide a new option `log1p`, i.e., `log(1+x)`. You can use  `-log1p` to turn it on and `-nolog1p` to turn it off (default off). Empirically speaking, `log1p` sometimes achieves better performance, for example in wiki dataset.
+### Run 
+```bash
+python main.py --dataname cora --gpu 0  --sample 4 --input_droprate 0.5 --hidden_droprate 0.5 --dropnode_rate 0.5 --hid_dim 32 --early_stopping 100 --lr 1e-2  --epochs 2000
+python main.py --dataname citeseer --gpu 0  --sample 2 --input_droprate 0.0 --hidden_droprate 0.2 --dropnode_rate 0.5 --hid_dim 128 --early_stopping 100 --lr 1e-2  --epochs 2000
+python main.py --dataname pubmed --gpu 0  --sample 4 --input_droprate 0.6 --hidden_droprate 0.8 --dropnode_rate 0.5 --hid_dim 16 --early_stopping 200 --lr 0.2 --epochs 2000 --use_bn
+```
 
 
 ## Acknowledgement
