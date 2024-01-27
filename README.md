@@ -27,6 +27,7 @@ pip install -r requirements.txt
 ```
 
 ### Run 
+You can run the code using the following command
 ```bash
 python main.py --dataname cora --gpu 0  --sample 4 --input_droprate 0.5 --hidden_droprate 0.5 --dropnode_rate 0.5 --hid_dim 32 --early_stopping 100 --lr 1e-2  --epochs 2000
 python main.py --dataname citeseer --gpu 0  --sample 2 --input_droprate 0.0 --hidden_droprate 0.2 --dropnode_rate 0.5 --hid_dim 128 --early_stopping 100 --lr 1e-2  --epochs 2000
@@ -34,6 +35,6 @@ python main.py --dataname pubmed --gpu 0  --sample 4 --input_droprate 0.6 --hidd
 ```
 
 
-## Acknowledgement
+## Modify hyperparameters
 
-The implementation of randomized singular value decomposition is by [redsvd](https://code.google.com/p/redsvd/) and [HPCA](https://github.com/idiap/hpca).
+You can modify the hyperparameters in line 117 of the main.py file (we will update the code version later to make it easier to modify the parameters).
